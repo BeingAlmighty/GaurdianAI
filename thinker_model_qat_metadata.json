@@ -1,0 +1,73 @@
+{
+  "model_name": "Guardian AI Thinker - QAT INT8",
+  "model_file": "thinker_model_qat_int8.tflite",
+  "model_version": "1.0.0",
+  "created_date": "2025-10-24 01:12:41",
+  "model_type": "quantization_aware_training",
+  "quantization": "INT8",
+  "file_size_kb": 73.64,
+  "optimal_threshold": 0.10,
+  "input_details": {
+    "shape": [1, 561],
+    "dtype": "int8",
+    "quantization_scale": 0.219078928232193,
+    "quantization_zero_point": -1,
+    "preprocessing": "StandardScaler - see scaler_params.json"
+  },
+  "output_details": {
+    "shape": [1, 1],
+    "dtype": "int8",
+    "quantization_scale": 0.00390625,
+    "quantization_zero_point": -128
+  },
+  "performance_metrics": {
+    "threshold": 0.10,
+    "accuracy": 0.9551,
+    "fall_precision": 0.96,
+    "fall_recall": 0.9861,
+    "fall_f1_score": 0.9727,
+    "adl_precision": 0.96,
+    "adl_recall": 0.8204,
+    "adl_f1_score": 0.88,
+    "confusion_matrix": [[667, 146], [49, 3479]],
+    "test_samples": 4341,
+    "falls_detected": "3479 out of 3528 (49 missed)",
+    "false_alarms": "146 out of 813 ADLs (18.0%)"
+  },
+  "threshold_options": {
+    "safety_first": {
+      "threshold": 0.05,
+      "fall_recall": 0.9983,
+      "false_alarm_rate": 0.207,
+      "description": "Prioritize catching all falls, accept higher false alarms"
+    },
+    "balanced": {
+      "threshold": 0.10,
+      "fall_recall": 0.9861,
+      "false_alarm_rate": 0.180,
+      "description": "Recommended - best balance between detection and false alarms"
+    },
+    "precision_focused": {
+      "threshold": 0.20,
+      "fall_recall": 0.9277,
+      "false_alarm_rate": 0.121,
+      "description": "Fewer false alarms, but misses more falls"
+    }
+  },
+  "deployment_notes": {
+    "battery_impact": "negligible (~0.0000001% per inference, ~0.86% per day continuous)",
+    "inference_time_estimate_ms": "10-20ms",
+    "recommended_use": "production deployment",
+    "threshold_tuning": "Set to 0.10 for balanced performance - reduce false alarms by 19 vs 0.07",
+    "sampling_rate_hz": 50,
+    "window_size_samples": 150,
+    "window_duration_seconds": 3,
+    "feature_normalization": "CRITICAL - must use same StandardScaler params from training (see scaler_params.json)"
+  },
+  "integration_files": {
+    "model": "thinker_model_qat_int8.tflite",
+    "scaler_parameters": "scaler_params.json",
+    "integration_guide": "MOBILE_INTEGRATION_GUIDE.md",
+    "evaluation_tool": "tools/evaluateTflite.py"
+  }
+}
